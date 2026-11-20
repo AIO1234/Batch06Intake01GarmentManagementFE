@@ -5,11 +5,7 @@
 
       <v-card class="pa-5" elevation="3">
         <!-- data table of inspection records -->
-        <v-data-table
-          :items="items"
-          :headers="headers"
-          :loading="loading"
-        >
+        <v-data-table :items="items" :headers="headers" :loading="loading">
         </v-data-table>
       </v-card>
     </v-container>
