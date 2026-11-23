@@ -96,6 +96,15 @@
             ></v-text-field>
           </v-col>
         </v-row>
+
+        <!-- Form Close Button -->
+        <v-row>
+          <v-col cols="12" class="text-right">
+            <v-btn color="error" variant="outlined" @click="$emit('closeForm')">
+              Close
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-form>
     </v-container>
   </div>
