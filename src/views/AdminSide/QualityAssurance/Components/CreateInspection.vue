@@ -53,7 +53,7 @@
               variant="outlined"
               type="number"
               v-model.number="form.inspected"
-              :rules="[required, positiveNumber]"
+              :rules="[required, positiveNumber, inspectedLimit]"
             ></v-text-field>
           </v-col>
 
@@ -66,7 +66,7 @@
               variant="outlined"
               type="number"
               v-model.number="form.approved"
-              :rules="[required, positiveNumber]"
+              :rules="[required, positiveNumber, approvedLimit]"
             ></v-text-field>
           </v-col>
 
@@ -92,14 +92,24 @@
               variant="outlined"
               type="number"
               v-model.number="form.rework"
-              :rules="[required, positiveNumber]"
+              :rules="[required, positiveNumber, quantityLimit]"
             ></v-text-field>
           </v-col>
         </v-row>
 
-        <!-- Form Close Button -->
+        <!-- Form Buttons -->
         <v-row>
           <v-col cols="12" class="text-right">
+            <v-btn
+              color="primary"
+              class="mr-2"
+              @click="storeInspection()"
+              :loading="showloader"
+              :disabled="!validated"
+            >
+              Save
+            </v-btn>
+
             <v-btn color="error" variant="outlined" @click="$emit('closeForm')">
               Close
             </v-btn>
@@ -115,7 +125,9 @@ export default {
   data() {
     return {
       validated: false,
+      showloader: false,
 
+      // form field values
       form: {
         date: "",
         order: "",
@@ -136,11 +148,63 @@ export default {
       return (v !== null && v !== undefined && v !== "") || "Field is required";
     },
 
-    // Positive number validation
+    // Positive number validation (Quantity must be 0 or more)
     positiveNumber(v) {
       return (
         (v !== null && v !== "" && Number(v) >= 0) || "Enter a valid quantity"
       );
+    },
+
+    // Approved quantity validation (Approved cannot exceed uninspected completed)
+    approvedLimit(v) {
+      return (
+        Number(v) <= Number(this.form.uninspected) ||
+        "Approved quantity cannot exceed uninspected completed quantity"
+      );
+    },
+
+    // Inspected quantity validation (Inspected quantity cannot exceed uninspected completed quantity)
+    inspectedLimit(v) {
+      return (
+        Number(v) <= Number(this.form.uninspected) ||
+        "Inspected quantity cannot exceed uninspected completed quantity"
+      );
+    },
+
+    // Total quantity validation (Approved + Defective + Rework must equal Inspected Qty)
+    quantityLimit(v) {
+      return (
+        Number(this.form.approved) + Number(this.form.defective) + Number(v) ===
+          Number(this.form.inspected) ||
+        "Approved + Defective + Rework must equal Inspected Qty"
+      );
+    },
+
+    // Save inspection details
+
+    storeInspection() {
+      // Check form validity and loading status
+      if (!this.validated || this.showloader) {
+        return;
+      }
+      this.showloader = true;
+
+      // Send data to parent component
+      this.$emit("saveInspection", this.form);
+
+      this.form = {
+        date: "",
+        order: "",
+        uninspected: 0,
+        inspected: null,
+        approved: null,
+        defective: null,
+        rework: null,
+      };
+
+      this.showloader = false;
+      // Requests the parent component to close the dialog box
+      this.$emit("closeForm");
     },
   },
 };
