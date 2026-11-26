@@ -36,11 +36,11 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      drawer: false,
-    };
-  },
+    data() {
+      return {
+        drawer: false,
+      };
+    },
 
   methods: {
     GotoLeavePage() {
