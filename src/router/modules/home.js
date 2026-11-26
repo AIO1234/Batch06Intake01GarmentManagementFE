@@ -1,12 +1,42 @@
 export default [
   {
-    path: "/admin",
-    component: import("@/layouts/default.vue"),
+    path: "/login",
+    name: "login",
+    component: () => import("@/views/Login.vue"),
+    meta: {
+      pageTitle: "Login",
+    },
+  },
+  {
+    path: "/",
+    redirect: "/dispatch",
+  },
+  {
+    path: "/dashboard",
+    component: () => import("@/layouts/default.vue"),
     children: [
       {
-        path: "/admin/dashboard",
-        // component : import("..pages/index.vue")
-        component: import("@/views/AdminSide/Dashboard.vue"),
+        path: "",
+        name: "dashboard",
+        component: () => import("@/views/AdminSide/Dashboard.vue"),
+        meta: {
+          pageTitle: "Dashboard",
+        },
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    component: () => import("@/layouts/default.vue"),
+    children: [
+      {
+        path: "",
+        redirect: "/admin/dashboard",
+      },
+      {
+        path: "dashboard",
+        name: "admin-dashboard",
+        component: () => import("@/views/AdminSide/Dashboard.vue"),
         meta: {
           pageTitle: "Dashboard",
         },

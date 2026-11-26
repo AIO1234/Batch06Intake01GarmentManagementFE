@@ -1,11 +1,12 @@
 export default [
   {
     path: "/admin",
-    component: import("@/layouts/default.vue"),
+    component: () => import("@/layouts/default.vue"),
     children: [
       {
-        path: "/admin/users",
-        component: import("@/views/AdminSide/UserManagement/index.vue"),
+        path: "users",
+        name: "admin-users",
+        component: () => import("@/views/AdminSide/UserManagement/index.vue"),
         meta: {
           pageTitle: "User Management",
         },

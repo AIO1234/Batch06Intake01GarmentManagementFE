@@ -1,7 +1,14 @@
 <template>
   <div class="dispatch-container">
-    <!-- View Navigation Tabs (Switch between Screen A and Screen B as shown in UI Wireframes) -->
+    <!-- View Switcher Tabs (Matches UI Wireframe Deliverables) -->
     <div class="view-tabs">
+      <button
+        class="view-tab-btn"
+        :class="{ active: currentTab === 'split' }"
+        @click="currentTab = 'split'"
+      >
+        <span>📑</span> Full Wireframe View (Screen A + B)
+      </button>
       <button
         class="view-tab-btn"
         :class="{ active: currentTab === 'screenA' }"
@@ -18,17 +25,45 @@
       </button>
     </div>
 
-    <!-- SCREEN A · DISPATCHES -->
-    <div v-show="currentTab === 'screenA'">
-      <!-- 1. Dispatches List Table -->
+    <!-- 1. SPLIT VIEW (Matches Page 14 & Uploaded PNG side-by-side) -->
+    <div v-if="currentTab === 'split'" class="split-view-grid">
+      <!-- Left Column: Screen A -->
+      <div class="split-col">
+        <div class="screen-sub-badge">SCREEN A · DISPATCHES</div>
+        <DispatchList
+          :dispatches="dispatches"
+          @open-form="scrollToForm"
+          @select-order="handleSelectOrder"
+        />
+
+        <div ref="dispatchFormSection">
+          <DispatchForm
+            :order-list="orders"
+            :initial-order-no="selectedOrderForForm"
+            @save-dispatch="handleSaveDispatch"
+            @cancel="handleCancelForm"
+          />
+        </div>
+      </div>
+
+      <!-- Right Column: Screen B -->
+      <div class="split-col">
+        <div class="screen-sub-badge">SCREEN B · REPORT: DISPATCH SUMMARY</div>
+        <DispatchReport
+          :dispatches="dispatches"
+          :order-list="orders"
+        />
+      </div>
+    </div>
+
+    <!-- 2. SCREEN A ONLY -->
+    <div v-else-if="currentTab === 'screenA'">
       <DispatchList
         :dispatches="dispatches"
         @open-form="scrollToForm"
-        @delete-dispatch="handleDeleteDispatch"
         @select-order="handleSelectOrder"
       />
 
-      <!-- 2. Dispatch QA-Approved Garments Form (Wireframe Page 14) -->
       <div ref="dispatchFormSection">
         <DispatchForm
           :order-list="orders"
@@ -39,8 +74,8 @@
       </div>
     </div>
 
-    <!-- SCREEN B · REPORT: DISPATCH SUMMARY -->
-    <div v-show="currentTab === 'screenB'">
+    <!-- 3. SCREEN B ONLY -->
+    <div v-else-if="currentTab === 'screenB'">
       <DispatchReport
         :dispatches="dispatches"
         :order-list="orders"
@@ -63,9 +98,9 @@ export default {
   },
   data() {
     return {
-      currentTab: "screenA",
+      currentTab: "split",
       selectedOrderForForm: "ORD-2026-0001",
-      // Master orders aligned with SRS v1.4 and PDF wireframe scenarios
+      // Master orders aligned with SRS v1.4 & PDF wireframe scenarios
       orders: [
         {
           orderNo: "ORD-2026-0001",
@@ -105,12 +140,10 @@ export default {
     };
   },
   created() {
-    // Check if initial dispatch applies to alreadyDispatchedQty
     this.recalculateDispatchedQty();
   },
   methods: {
     recalculateDispatchedQty() {
-      // Sum dispatched quantities per order
       this.orders.forEach((order) => {
         const total = this.dispatches
           .filter((d) => d.orderNo === order.orderNo)
@@ -119,14 +152,7 @@ export default {
       });
     },
     handleSaveDispatch(newDispatch) {
-      // Add to dispatches list (or prepend)
       this.dispatches.unshift(newDispatch);
-      this.recalculateDispatchedQty();
-    },
-    handleDeleteDispatch(dispatchToDelete) {
-      this.dispatches = this.dispatches.filter(
-        (d) => d.deliveryNote !== dispatchToDelete.deliveryNote
-      );
       this.recalculateDispatchedQty();
     },
     handleSelectOrder(orderNo) {
@@ -149,3 +175,30 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.split-view-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.split-col {
+  min-width: 0;
+}
+
+.screen-sub-badge {
+  font-size: 11px;
+  font-weight: 800;
+  color: #0e7490;
+  letter-spacing: 0.6px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+</style>

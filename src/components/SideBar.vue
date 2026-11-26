@@ -1,43 +1,77 @@
 <template>
-  <!-- changes -->
-  <v-app-bar-nav-icon
-    @click.stop="drawer = !drawer"
-    style="color: #0a72af"
-  ></v-app-bar-nav-icon>
-  <v-navigation-drawer v-model="drawer" temporary style="height: 100%">
-    <v-list density="compact" nav>
-      <!-- Home -->
-      <v-list-item
-        active-class="ative_color"
-        prepend-icon="mdi-home-account"
-        title="Dashboard"
-        value="Dashboard"
-        @click="$router.push('/admin/dashboard')"
+  <aside class="erp-sidebar">
+    <!-- Brand Header -->
+    <div class="sidebar-brand">
+      <div class="brand-title">
+        <span class="brand-dot"></span>
+        GARMENT ERP
+      </div>
+      <div class="brand-sub">Manufacturing System v1.4</div>
+    </div>
+
+    <!-- Navigation Menu (Aligned with SRS §7 & §8 Navigation Map) -->
+    <ul class="sidebar-menu">
+      <li
+        v-for="item in menuItems"
+        :key="item.route"
+        class="nav-item"
       >
-      </v-list-item>
-      <!-- users -->
-      <v-list-item
-        active-class="ative_color"
-        prepend-icon="mdi-account-tie"
-        title="Users"
-        value="Users"
-        @click="$router.push('/admin/users')"
-      ></v-list-item>
-    </v-list>
-  </v-navigation-drawer>
+        <router-link
+          :to="item.route"
+          class="nav-link"
+          :class="{ active: isRouteActive(item.route) }"
+        >
+          <span v-if="item.num" class="nav-num">{{ item.num }}</span>
+          <span v-else class="nav-num">▸</span>
+          <span class="nav-label">{{ item.label }}</span>
+        </router-link>
+      </li>
+    </ul>
+
+    <!-- Footer note -->
+    <div class="sidebar-footer">
+      <span>Student Project · SRS v1.4</span>
+    </div>
+  </aside>
 </template>
+
 <script>
 export default {
+  name: "SideBar",
   data() {
     return {
-      drawer: false,
+      menuItems: [
+        { label: "Dashboard", route: "/dashboard", num: "" },
+        { label: "Customers", route: "/customers", num: "1" },
+        { label: "Orders & Styles", route: "/orders", num: "2" },
+        { label: "Suppliers", route: "/suppliers", num: "3" },
+        { label: "Purchase Orders", route: "/purchase-orders", num: "4" },
+        { label: "Materials & BOM", route: "/materials-bom", num: "5" },
+        { label: "Goods Receipt", route: "/grn", num: "6" },
+        { label: "Raw Material Stock", route: "/stock", num: "7" },
+        { label: "Production", route: "/production", num: "8" },
+        { label: "Quality Assurance", route: "/qa", num: "9" },
+        { label: "Dispatch", route: "/dispatch", num: "10" },
+        { label: "Invoicing", route: "/invoices", num: "11" },
+      ],
     };
   },
-
   methods: {
-    GotoLeavePage() {
-      // route home page
-      this.$router.push({ name: "leaves" });
+    isRouteActive(routePath) {
+      if (routePath === "/dispatch") {
+        return (
+          this.$route.path === "/dispatch" ||
+          this.$route.path.startsWith("/admin/dispatch")
+        );
+      }
+      if (routePath === "/dashboard") {
+        return (
+          this.$route.path === "/dashboard" ||
+          this.$route.path === "/admin/dashboard" ||
+          this.$route.path === "/admin"
+        );
+      }
+      return this.$route.path === routePath;
     },
   },
 };

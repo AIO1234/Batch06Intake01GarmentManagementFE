@@ -12,9 +12,8 @@ import { registerPlugins } from "@/plugins";
 import "@/styles/settings.scss";
 import "@/assets/scss/sidebar.scss";
 import "@/assets/scss/admin.scss";
-import "@/assets/scss/home.scss";
-import "@/assets/scss/header.scss";
 import "@/assets/scss/global_styles.scss";
+import "@/assets/scss/dispatch.scss";
 import "@/assets/scss/user_management.scss";
 
 

@@ -1,50 +1,137 @@
-.horizantal {
-  background-color: rgb(246, 243, 243);
-  min-height: 150vh;
-  .card {
-    width: 100%;
-  }
-  .role_text {
-    color: rgb(129, 126, 122);
-    font-size: 15px;
-  }
-}
-.horizantal_paddings {
-  padding-left: 3%;
-  padding-right: 3%;
-}
-.content {
-  margin-top: 5px;
-}
-.webview {
-  @media screen and (max-width: 600px) {
-    display: none;
-  }
-  @media (min-width: 600px) and (max-width: 1024px) {
-    display: none;
-  }
-  @media screen and (min-width: 1366px) {
-    display: block;
-  }
-}
-.mobileview {
-  @media (min-width: 480px) {
-    display: none;
-  }
-  @media (max-width: 768px) {
-    display: block;
-  }
-  @media (min-width: 768px) and (max-width: 1024px) {
-    display: block;
-  }
-}
-.admin-table {
-  .v-data-table__td:last-child {
-    width: 200px;
-  }
-}
+/* ==========================================================================
+   GARMENT ERP - MAIN ADMIN LAYOUT SCSS
+   Design System Standards (SRS §6 & §8):
+   - Background: #f3f6f8
+   - Sidebar: #12303b
+   - Topbar: #ffffff
+   - Laptop first (1366x768 and up), basic responsive collapse
+   ========================================================================== */
 
-.add-btn {
-  float: right;
-  margin: 0 0 24px;
+$color-page-bg: #f3f6f8;
+$color-table-head: #12303b;
+$color-primary: #0e7490;
+$color-border: #e2e8f0;
+
+.erp-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: $color-page-bg;
+  font-family: Inter, Helvetica, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #1e293b;
+
+  .erp-sidebar-col {
+    width: 230px;
+    min-width: 230px;
+    flex-shrink: 0;
+    z-index: 100;
+
+    @media (max-width: 900px) {
+      width: 64px;
+      min-width: 64px;
+    }
+  }
+
+  .erp-main-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .erp-topbar {
+    height: 56px;
+    background-color: #ffffff;
+    border-bottom: 1px solid $color-border;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .topbar-page-title {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+        color: $color-table-head;
+        letter-spacing: -0.3px;
+      }
+
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 20px;
+        color: $color-table-head;
+        cursor: pointer;
+
+        @media (max-width: 900px) {
+          display: block;
+        }
+      }
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 13px;
+
+      .user-name {
+        font-weight: 600;
+        color: #334155;
+      }
+
+      .user-role-badge {
+        background-color: #e0f2fe;
+        color: #0369a1;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 10px;
+        letter-spacing: 0.2px;
+      }
+
+      .logout-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: none;
+        border: none;
+        color: #64748b;
+        font-size: 12.5px;
+        font-weight: 500;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.15s;
+
+        &:hover {
+          color: #dc2626;
+          background-color: #fee2e2;
+        }
+      }
+    }
+  }
+
+  .erp-content {
+    flex: 1;
+    padding: 20px 24px 40px 24px;
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+
+    @media (max-width: 768px) {
+      padding: 14px 12px;
+    }
+  }
 }

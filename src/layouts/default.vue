@@ -1,30 +1,30 @@
 <template>
-  <v-app>
-    <div>
-      <v-row>
-        <v-col lg="2" md="2" cols="12"> <SideBar /></v-col>
-        <v-col lg="10" md="10" cols="12">
-          <div class="horizantal_paddings pt-4 horizantal">
-            <HorizantlBar />
-            <div class="mt-12"></div>
-            <h2>{{ $route.meta.pageTitle }}</h2>
-            <div class="content">
-              <router-view />
-            </div>
-          </div>
-        </v-col>
-      </v-row>
+  <div class="erp-layout">
+    <div class="erp-sidebar-col">
+      <SideBar />
     </div>
-  </v-app>
+    <div class="erp-main-col">
+      <HorizantalBar />
+      <main class="erp-content">
+        <router-view />
+      </main>
+    </div>
+  </div>
 </template>
+
 <script>
 import SideBar from "@/components/SideBar.vue";
-import HorizantlBar from "@/components/HorizantalBar.vue";
+import HorizantalBar from "@/components/HorizantalBar.vue";
+
 export default {
+  name: "DefaultLayout",
   components: {
     SideBar,
-    HorizantlBar,
+    HorizantalBar,
   },
 };
 </script>
-<style lang="scss" scoped></style>
+
+<style scoped>
+/* Scoped styles are handled globally via admin.scss and sidebar.scss */
+</style>

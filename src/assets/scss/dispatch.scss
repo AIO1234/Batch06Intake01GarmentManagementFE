@@ -1,0 +1,565 @@
+/* ==========================================================================
+   GARMENT ERP - DISPATCH MANAGEMENT SCSS
+   Design System Standards (SRS §6 & §8):
+   - Primary: #0e7490
+   - Sidebar / table head: #12303b
+   - Accent / export: #f59e0b
+   - Success: #16a34a
+   - Error: #dc2626
+   - Info: #2563eb
+   - Page bg: #f3f6f8
+   - Card: #ffffff
+   ========================================================================== */
+
+$color-primary: #0e7490;
+$color-primary-dark: #0c6077;
+$color-primary-light: #e0f2fe;
+$color-table-head: #12303b;
+$color-accent: #f59e0b;
+$color-accent-hover: #d97706;
+$color-success: #16a34a;
+$color-error: #dc2626;
+$color-info: #2563eb;
+$color-bg: #f3f6f8;
+$color-card: #ffffff;
+$color-border: #e2e8f0;
+$color-border-dark: #cbd5e1;
+$color-text: #1e293b;
+$color-text-muted: #64748b;
+$color-readonly-bg: #f1f5f9;
+
+.dispatch-container {
+  width: 100%;
+  max-width: 100%;
+  color: $color-text;
+  font-family: Inter, Helvetica, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* View switcher tabs (Screen A · Dispatches vs Screen B · Report: Dispatch Summary) */
+  .view-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid $color-border;
+    padding-bottom: 8px;
+
+    .view-tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: $color-text-muted;
+      background: #ffffff;
+      border: 1px solid $color-border;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: $color-primary;
+        border-color: $color-primary;
+        background: #f8fafc;
+      }
+
+      &.active {
+        color: #ffffff;
+        background-color: $color-primary;
+        border-color: $color-primary;
+        box-shadow: 0 2px 4px rgba(14, 116, 144, 0.2);
+      }
+    }
+  }
+
+  /* Card styling */
+  .erp-card {
+    background: $color-card;
+    border: 1px solid $color-border;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    overflow: hidden;
+
+    .card-header-bar {
+      padding: 12px 18px;
+      border-bottom: 1px solid $color-border;
+      background-color: #fafbfd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .card-title {
+        margin: 0;
+        font-size: 14.5px;
+        font-weight: 700;
+        color: $color-table-head;
+        letter-spacing: -0.2px;
+      }
+    }
+
+    .card-body {
+      padding: 16px 20px;
+    }
+  }
+
+  /* Search & Top Action Bar */
+  .search-action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+
+    .search-input-wrapper {
+      position: relative;
+      flex: 1;
+      max-width: 480px;
+
+      .search-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 13px;
+        color: $color-text-muted;
+        pointer-events: none;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 7px 12px 7px 32px;
+        font-size: 12.5px;
+        border: 1px solid $color-border-dark;
+        border-radius: 4px;
+        outline: none;
+        transition: border-color 0.2s;
+
+        &:focus {
+          border-color: $color-primary;
+          box-shadow: 0 0 0 2px rgba(14, 116, 144, 0.15);
+        }
+      }
+    }
+
+    .action-btn-group {
+      display: flex;
+      gap: 8px;
+    }
+  }
+
+  /* Buttons */
+  .btn-primary-erp {
+    background-color: $color-primary;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 7px 16px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s, transform 0.1s;
+
+    &:hover:not(:disabled) {
+      background-color: $color-primary-dark;
+    }
+
+    &:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+  }
+
+  .btn-outline-erp {
+    background-color: #ffffff;
+    color: #334155;
+    border: 1px solid $color-border-dark;
+    border-radius: 4px;
+    padding: 7px 16px;
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+
+    &:hover {
+      background-color: #f8fafc;
+      border-color: #94a3b8;
+    }
+  }
+
+  .btn-export-erp {
+    background-color: $color-accent;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 7px 16px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: $color-accent-hover;
+    }
+  }
+
+  /* Banners */
+  .erp-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    font-weight: 500;
+    margin-bottom: 16px;
+
+    &.banner-error {
+      background-color: #fef2f2;
+      border: 1px solid #fecaca;
+      color: $color-error;
+    }
+
+    &.banner-success {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: $color-success;
+    }
+
+    .banner-icon {
+      font-size: 14px;
+    }
+  }
+
+  /* Form Grid and Groups */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px 20px;
+    margin-bottom: 14px;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+
+    .form-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: $color-text-muted;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+
+      .required-star {
+        color: $color-error;
+        margin-left: 2px;
+        font-weight: bold;
+      }
+    }
+
+    .form-control {
+      width: 100%;
+      height: 36px;
+      padding: 6px 10px;
+      font-size: 12.5px;
+      border: 1px solid $color-border-dark;
+      border-radius: 4px;
+      background-color: #ffffff;
+      outline: none;
+      color: $color-text;
+      transition: border-color 0.2s, box-shadow 0.2s;
+
+      &:focus {
+        border-color: $color-primary;
+        box-shadow: 0 0 0 2px rgba(14, 116, 144, 0.15);
+      }
+
+      &.readonly-field {
+        background-color: $color-readonly-bg;
+        color: #475569;
+        font-weight: 600;
+        cursor: not-allowed;
+        border-color: $color-border;
+      }
+
+      &.is-invalid {
+        border-color: $color-error !important;
+        background-color: #fff8f8;
+
+        &:focus {
+          box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.15);
+        }
+      }
+    }
+
+    .invalid-feedback {
+      font-size: 11px;
+      color: $color-error;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid $color-border;
+  }
+
+  /* Table Styles */
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 4px;
+    border: 1px solid $color-border;
+  }
+
+  .erp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    background: #ffffff;
+
+    thead {
+      tr {
+        background-color: $color-table-head;
+
+        th {
+          color: #ffffff;
+          font-weight: 600;
+          font-size: 12px;
+          letter-spacing: 0.3px;
+          padding: 10px 14px;
+          text-align: left;
+          white-space: nowrap;
+          border: none;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid #f1f5f9;
+        transition: background-color 0.15s;
+
+        &:hover {
+          background-color: #f8fafc;
+        }
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        td {
+          padding: 10px 14px;
+          color: $color-text;
+          vertical-align: middle;
+          white-space: nowrap;
+        }
+      }
+    }
+
+    &.table-bordered {
+      border: 1px solid $color-border;
+
+      td, th {
+        border: 1px solid $color-border;
+      }
+    }
+  }
+
+  /* Order Balance Sub-Section */
+  .order-balance-section {
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px dashed $color-border-dark;
+
+    .section-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: $color-table-head;
+      margin: 0 0 10px 0;
+    }
+  }
+
+  /* Report Filter Bar */
+  .report-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 14px;
+    background-color: #f8fafc;
+    border: 1px solid $color-border;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+
+    .filter-item {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-size: 11px;
+        font-weight: 700;
+        color: $color-text-muted;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+      }
+
+      .filter-input {
+        height: 34px;
+        min-width: 160px;
+        padding: 5px 10px;
+        font-size: 12.5px;
+        border: 1px solid $color-border-dark;
+        border-radius: 4px;
+        background-color: #ffffff;
+        outline: none;
+
+        &:focus {
+          border-color: $color-primary;
+        }
+      }
+    }
+
+    .filter-actions {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      margin-left: auto;
+
+      @media (max-width: 900px) {
+        margin-left: 0;
+        width: 100%;
+        justify-content: flex-start;
+      }
+    }
+  }
+
+  /* Table Footer & Pagination */
+  .table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 6px 4px 6px;
+    font-size: 12px;
+    color: $color-text-muted;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    .total-dispatched {
+      font-weight: 700;
+      color: $color-table-head;
+      font-size: 12.5px;
+    }
+
+    .pagination-controls {
+      display: flex;
+      gap: 4px;
+
+      .page-btn {
+        min-width: 28px;
+        height: 28px;
+        padding: 0 6px;
+        font-size: 11.5px;
+        border: 1px solid $color-border-dark;
+        background: #ffffff;
+        color: $color-text;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.15s;
+
+        &:hover:not(:disabled) {
+          background-color: #f1f5f9;
+          border-color: #94a3b8;
+        }
+
+        &.active {
+          background-color: $color-primary;
+          border-color: $color-primary;
+          color: #ffffff;
+          font-weight: bold;
+        }
+
+        &:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
+  /* Status Badges */
+  .status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: capitalize;
+
+    &.status-pending {
+      background-color: #f1f5f9;
+      color: #475569;
+    }
+
+    &.status-in-production {
+      background-color: #e0f2fe;
+      color: #0284c7;
+    }
+
+    &.status-qa {
+      background-color: #fef3c7;
+      color: #d97706;
+    }
+
+    &.status-dispatched {
+      background-color: #dcfce7;
+      color: #16a34a;
+    }
+
+    &.status-open {
+      background-color: #dbeafe;
+      color: #2563eb;
+    }
+
+    &.status-partial {
+      background-color: #fef3c7;
+      color: #b45309;
+    }
+
+    &.status-closed {
+      background-color: #f1f5f9;
+      color: #475569;
+    }
+
+    &.status-paid {
+      background-color: #dcfce7;
+      color: #16a34a;
+    }
+
+    &.status-unpaid {
+      background-color: #fee2e2;
+      color: #dc2626;
+    }
+  }
+}

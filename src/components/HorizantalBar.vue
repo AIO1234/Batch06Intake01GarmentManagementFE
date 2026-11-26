@@ -1,28 +1,31 @@
 <template>
-  <v-card elevation="2" class="pa-5 card">
-    <v-row>
-      <v-col lg="10">
-        <v-menu>
-          <template v-slot:activator="{ props }">
-            <v-btn icon="mdi-account" color="primary" v-bind="props"> </v-btn>
-          </template>
-          <v-list>
-            <v-list-item @click="$router.push('/admin')">
-              <v-list-item-title>Logout</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </v-col>
-      <v-col lg="2">
-        <div class="text-right">
-          <span class="font-weight-bold">Test User</span>
-          <br />
-          <span class="role_text">Admin</span>
-        </div>
-      </v-col>
-    </v-row>
-  </v-card>
+  <header class="erp-topbar">
+    <div class="topbar-left">
+      <h1 class="topbar-page-title">{{ displayTitle }}</h1>
+    </div>
+
+    <div class="topbar-right">
+      <span class="user-name">Nimal P.</span>
+      <span class="user-role-badge">Administrator</span>
+      <button class="logout-btn" @click="handleLogout" title="Sign out of ERP">
+        <span>⎋</span> Logout
+      </button>
+    </div>
+  </header>
 </template>
+
 <script>
-export default {};
+export default {
+  name: "HorizantalBar",
+  computed: {
+    displayTitle() {
+      return this.$route.meta?.pageTitle || "Garment Manufacturing ERP";
+    },
+  },
+  methods: {
+    handleLogout() {
+      this.$router.push("/login");
+    },
+  },
+};
 </script>

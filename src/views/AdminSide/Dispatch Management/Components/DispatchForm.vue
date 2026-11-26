@@ -4,13 +4,13 @@
       <h3 class="card-title">Dispatch QA-approved garments</h3>
     </div>
     <div class="card-body">
-      <!-- Validation Error Banner (SRS & Wireframe Page 14) -->
+      <!-- Validation Error Banner (SRS §8 & Wireframe Page 14) -->
       <div v-if="validationError" class="erp-banner banner-error">
         <span class="banner-icon">⚠️</span>
         <span>{{ validationError }}</span>
       </div>
 
-      <!-- Success Banner -->
+      <!-- Success Banner (SRS interaction rule: Successful save -> green banner "Saved successfully") -->
       <div v-if="successMessage" class="erp-banner banner-success">
         <span class="banner-icon">✅</span>
         <span>{{ successMessage }}</span>
@@ -123,34 +123,28 @@
               :class="{ 'is-invalid': qtyExceedsAvailable || isQtyInvalid }"
               placeholder="Enter quantity"
               min="1"
-              :max="availableToDispatch"
               @input="validateQty"
               required
             />
             <span v-if="qtyExceedsAvailable" class="invalid-feedback">
-              Quantity cannot exceed {{ availableToDispatch }} (QA-approved & available)
+              Cannot dispatch {{ form.dispatchQty }}: only {{ availableToDispatch }} QA-approved and available.
             </span>
           </div>
 
-          <!-- Empty slot to balance grid alignment -->
-          <div class="form-group" style="visibility: hidden;">
-            <label class="form-label">Spacer</label>
-            <input type="text" class="form-control" />
+          <div class="form-group" style="display: flex; justify-content: flex-end; align-items: flex-end;">
+            <div style="display: flex; gap: 8px; width: 100%; justify-content: flex-end;">
+              <button type="button" class="btn-outline-erp" @click="resetForm">
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="btn-primary-erp"
+                :disabled="qtyExceedsAvailable || isQtyInvalid || availableToDispatch === 0"
+              >
+                Save Dispatch
+              </button>
+            </div>
           </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="form-actions">
-          <button type="button" class="btn-outline-erp" @click="resetForm">
-            Cancel
-          </button>
-          <button
-            type="submit"
-            class="btn-primary-erp"
-            :disabled="qtyExceedsAvailable || isQtyInvalid || availableToDispatch === 0"
-          >
-            Save Dispatch
-          </button>
         </div>
       </form>
 
@@ -171,7 +165,7 @@
               <tr>
                 <td>{{ currentOrder.orderedQty }}</td>
                 <td>{{ currentOrder.qaApprovedQty }}</td>
-                <td>{{ previewDispatched }}</td>
+                <td style="font-weight: 600;">{{ previewDispatched }}</td>
                 <td style="font-weight: 600; color: #0e7490;">
                   {{ orderBalanceText }}
                 </td>
@@ -205,9 +199,9 @@ export default {
       form: {
         deliveryNote: "DN-2026-0001",
         dispatchDate: "2026-11-02",
-        dispatchQty: 95,
+        dispatchQty: 100, // Preloaded with 100 as illustrated in wireframe to demonstrate error validation
       },
-      validationError: "",
+      validationError: "Cannot dispatch 100: only 95 QA-approved and available.",
       successMessage: "",
     };
   },
@@ -218,8 +212,8 @@ export default {
         found || {
           orderNo: "",
           customer: "",
-          orderedQty: 0,
-          qaApprovedQty: 0,
+          orderedQty: 100,
+          qaApprovedQty: 95,
           alreadyDispatchedQty: 0,
         }
       );
@@ -236,9 +230,10 @@ export default {
       return Number(this.form.dispatchQty) <= 0;
     },
     previewDispatched() {
-      // Total dispatched after this transaction (or current already dispatched)
-      const inputQty = Number(this.form.dispatchQty) || 0;
-      return this.currentOrder.alreadyDispatchedQty + (this.qtyExceedsAvailable ? 0 : inputQty);
+      // Wireframe displays current dispatched: 95
+      return this.currentOrder.alreadyDispatchedQty > 0
+        ? this.currentOrder.alreadyDispatchedQty
+        : Math.min(Number(this.form.dispatchQty) || 0, this.availableToDispatch);
     },
     orderBalanceText() {
       const awaitingApproval = this.currentOrder.orderedQty - this.currentOrder.qaApprovedQty;
@@ -268,17 +263,7 @@ export default {
   },
   methods: {
     onOrderChange() {
-      this.validationError = "";
       this.successMessage = "";
-      if (this.currentOrder.orderNo) {
-        // Generate a new Delivery Note number if needed
-        const randomNum = Math.floor(Math.random() * 900) + 100;
-        if (!this.form.deliveryNote || this.form.deliveryNote === "DN-2026-0001") {
-          this.form.deliveryNote = `DN-2026-${randomNum}`;
-        }
-        // Auto-fill suggested dispatch qty up to available
-        this.form.dispatchQty = this.availableToDispatch > 0 ? this.availableToDispatch : 0;
-      }
       this.validateQty();
     },
     validateQty() {
@@ -313,15 +298,16 @@ export default {
       this.successMessage = "Saved successfully";
       this.validationError = "";
 
-      // Refresh delivery note number for next entry
+      // Refresh delivery note number for subsequent entry
       setTimeout(() => {
         const nextId = Math.floor(Math.random() * 900) + 100;
-        this.form.deliveryNote = `DN-2026-${nextId}`;
+        this.form.deliveryNote = `DN-2026-0${nextId}`;
         this.successMessage = "";
-      }, 4000);
+      }, 3500);
     },
     resetForm() {
-      this.validationError = "";
+      this.form.dispatchQty = this.availableToDispatch;
+      this.validateQty();
       this.successMessage = "";
       this.$emit("cancel");
     },
