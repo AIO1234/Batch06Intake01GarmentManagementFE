@@ -11,6 +11,14 @@ export default [
           pageTitle: "Dashboard",
         },
       },
+      // {
+      //   path: "/admin/product-management",
+      //   component: () =>
+      //     import("@/views/AdminSide/Product Management/index.vue"),
+      //   meta: {
+      //     pageTitle: "Product Management",
+      //   },
+      // },
     ],
   },
 ];
