@@ -120,11 +120,10 @@
 </template>
 
 <script>
-import UpdateProduct from "@/views/AdminSide/Product Management/components/UpdateProduct.vue";
+
 
 export default {
   components: {
-    UpdateProduct,
   },
 
   data() {
