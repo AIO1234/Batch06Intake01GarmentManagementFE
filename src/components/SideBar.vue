@@ -23,6 +23,14 @@
         value="Users"
         @click="$router.push('/admin/users')"
       ></v-list-item>
+       <!-- Product Management -->
+      <v-list-item
+        active-class="ative_color"
+        prepend-icon="mdi-package-variant-closed"
+        title="Product Management"
+        value="Product Management"
+        @click="$router.push('/admin/product-management')"
+      ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
