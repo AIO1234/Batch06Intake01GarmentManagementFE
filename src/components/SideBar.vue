@@ -16,6 +16,7 @@
         :key="item.route"
         class="nav-item"
       >
+<<<<<<< HEAD
         <router-link
           :to="item.route"
           class="nav-link"
@@ -33,10 +34,32 @@
       <span>Student Project · SRS v1.4</span>
     </div>
   </aside>
+=======
+      </v-list-item>
+      <!-- users -->
+      <v-list-item
+        active-class="ative_color"
+        prepend-icon="mdi-account-tie"
+        title="Users"
+        value="Users"
+        @click="$router.push('/admin/users')"
+      ></v-list-item>
+       <!-- Product Management -->
+      <v-list-item
+        active-class="ative_color"
+        prepend-icon="mdi-package-variant-closed"
+        title="Product Management"
+        value="Product Management"
+        @click="$router.push('/admin/product-management')"
+      ></v-list-item>
+    </v-list>
+  </v-navigation-drawer>
+>>>>>>> inuka
 </template>
 
 <script>
 export default {
+<<<<<<< HEAD
   name: "SideBar",
   data() {
     return {
@@ -56,6 +79,14 @@ export default {
       ],
     };
   },
+=======
+    data() {
+      return {
+        drawer: false,
+      };
+    },
+
+>>>>>>> inuka
   methods: {
     isRouteActive(routePath) {
       if (routePath === "/dispatch") {
