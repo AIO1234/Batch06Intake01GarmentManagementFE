@@ -1,5 +1,26 @@
 <template>
   <v-container fluid class="pa-6 bg-grey-lighten-5">
+
+    <!--------------------------------------------->
+    <!--to switch section one to section two-->
+    <!--------------------------------------------->
+
+<v-card variant="outlined" class="mb-6 px-2 pt-4 bg-gray rounded-lg">
+  <v-tabs v-model="activeTab" color="white-smoke">
+    <v-tab value="Section_01" class="text-none font-weight-bold">Section 1: Stock and Issues</v-tab>
+    <v-tab value="Section_02" class="text-none font-weight-bold">Section 2: Available Balance</v-tab>
+  </v-tabs>
+</v-card>
+
+<!------------------show active section--------------------------->
+<v-window v-model="activeTab" class="mt-4">
+  <v-window-item value="Section_01">
+     
+    <!------------------------------------------------------->
+     <!--SECTION 1-------->
+    <!------------------------------------------------------->
+
+
     <!-- Search Bar -->
     <v-text-field
       v-model="searchQuery"
@@ -13,7 +34,7 @@
     />
 
     <!-- Stock Summary Table -->
-    <v-card variant="outlined" class="mb-6 bg-white rounded-lg">
+    <v-card variant="outlined" class="mb-6 bg-white ">
       <v-data-table
         :headers="stockHeaders"
         :items="filteredStock"
@@ -34,7 +55,7 @@
     </v-card>
 
     <!-- Issue Material to Production Card -->
-    <v-card variant="outlined" class="pa-5 mb-6 bg-white rounded-lg">
+    <v-card variant="outlined" class="pa-5 mb-6 bg-white ">
       <div class="text-subtitle-1 font-weight-bold mb-3">
         Issue material to production
       </div>
@@ -180,11 +201,23 @@
         </template>
       </v-data-table>
     </v-card>
+    </v-window-item>
+
+    <!-----------------------------Insert section two---------------------------->
+    <v-window-item value="Section_02">
+     <AvailableBalanceSection :materials="materials" />
+        
+    </v-window-item>
+  </v-window>
   </v-container>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
+import AvailableBalanceSection from "@/views/AdminSide/UserManagement/Components/Rawmate/AvailableBalanceSection.vue";
+
+// Active section tab state
+const activeTab = ref('Section_01')
 
 // Initial data for Section 1
 const materials = ref([
