@@ -23,6 +23,22 @@
         value="Users"
         @click="$router.push('/admin/users')"
       ></v-list-item>
+      <!-- orders & styles -->
+      <v-list-item
+        active-class="ative_color"
+        prepend-icon="mdi-hanger"
+        title="Orders & Styles"
+        value="Orders"
+        @click="$router.push('/admin/orders')"
+      ></v-list-item>
+      <!-- order status report -->
+      <v-list-item
+        active-class="ative_color"
+        prepend-icon="mdi-chart-box-outline"
+        title="Order Status"
+        value="OrderStatus"
+        @click="$router.push('/admin/order-status')"
+      ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>

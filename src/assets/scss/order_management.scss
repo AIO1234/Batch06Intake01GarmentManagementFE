@@ -1,0 +1,72 @@
+.order_management {
+  .erp_primary_btn {
+    background-color: #0f6e7d !important;
+    color: #ffffff !important;
+    text-transform: none;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+
+  .erp_export_btn {
+    background-color: #f59e0b !important;
+    color: #ffffff !important;
+    text-transform: none;
+    font-weight: 600;
+  }
+
+  .erp_tabs {
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .erp_table {
+    .v-table__wrapper > table > thead > tr > th {
+      background-color: #0e242c !important;
+      color: #ffffff !important;
+      font-weight: 600 !important;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .v-table__wrapper > table > tbody > tr:hover {
+      background-color: #f8fafc;
+    }
+  }
+
+  .status_badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .order_form_card {
+    .form_label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 4px;
+    }
+  }
+
+  .report_summary_bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 0.9rem;
+    color: #475569;
+
+    .total_ordered {
+      font-weight: 700;
+      color: #0f172a;
+      font-size: 0.95rem;
+    }
+  }
+}
