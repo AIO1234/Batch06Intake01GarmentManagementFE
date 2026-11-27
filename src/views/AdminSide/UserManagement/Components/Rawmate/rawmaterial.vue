@@ -1,5 +1,26 @@
 <template>
   <v-container fluid class="pa-6 bg-grey-lighten-5">
+
+    <!--------------------------------------------->
+    <!--to switch section one to section two-->
+    <!--------------------------------------------->
+
+<v-card variant="outlined" class="mb-6 px-2 pt-4 bg-gray rounded-lg">
+  <v-tabs v-model="activeTab" color="green">                             <!----(v-model="activeTab") connect to this js [const activeTab = ref('Section_01')]-->
+    <v-tab value="Section_01" class="text-none font-weight-bold">Stock and Issues</v-tab>
+    <v-tab value="Section_02" class="text-none font-weight-bold">Available Balance</v-tab>
+  </v-tabs>
+</v-card>
+
+<!------------------show active section--------------------------->
+<v-window v-model="activeTab" class="mt-4">                              
+  <v-window-item value="Section_01">
+     
+    <!------------------------------------------------------->
+                          <!--SECTION 1-->
+    <!------------------------------------------------------->
+
+
     <!-- Search Bar -->
     <v-text-field
       v-model="searchQuery"
@@ -12,8 +33,8 @@
       class="mb-4"
     />
 
-    <!-- Stock Summary Table -->
-    <v-card variant="outlined" class="mb-6 bg-white rounded-lg">
+    <!-- Stock Summary Table-->
+    <v-card variant="outlined" class="mb-6 bg-white ">
       <v-data-table
         :headers="stockHeaders"
         :items="filteredStock"
@@ -34,18 +55,23 @@
     </v-card>
 
     <!-- Issue Material to Production Card -->
-    <v-card variant="outlined" class="pa-5 mb-6 bg-white rounded-lg">
+    <v-card variant="outlined" class="pa-5 mb-6 bg-white ">
       <div class="text-subtitle-1 font-weight-bold mb-3">
         Issue material to production
       </div>
+
+      <!------divider between two sections-->
       <v-divider class="border-dashed mb-4" />
 
+      <!-----information component-->
       <v-alert
         type="info"
         variant="tonal"
         color="blue-darken-2"
         class="mb-4 text-body-2"
       >
+
+      <!------operational info-->
         <strong>
           Available: {{ formatNumber(selectedMaterialObj?.available ?? 0) }}
           {{ selectedMaterialObj?.unit || '' }}
@@ -171,8 +197,11 @@
 
         <template #item.qty="{ item }">
           <span class="font-weight-medium">
+
+            <!--------Interpolation and Ternary Operator-------->
             {{
               item.qty > 0
+              
                 ? `+${formatNumber(item.qty)}`
                 : `−${formatNumber(Math.abs(item.qty))}`
             }}
@@ -180,11 +209,23 @@
         </template>
       </v-data-table>
     </v-card>
+    </v-window-item>
+
+    <!-----------------------------Insert section two---------------------------->
+    <v-window-item value="Section_02">
+     <AvailableBalanceSection :materials="materials" />
+        
+    </v-window-item>
+  </v-window>
   </v-container>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
+import AvailableBalanceSection from "@/views/AdminSide/UserManagement/Components/Rawmate/AvailableBalanceSection.vue";
+
+// Active section tab state
+const activeTab = ref('Section_01')
 
 // Initial data for Section 1
 const materials = ref([
