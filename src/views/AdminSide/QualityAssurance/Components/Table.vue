@@ -14,11 +14,19 @@
 
 <script>
 export default {
+  props: {
+    // Inspection records passed from parent
+    items: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
   data() {
     return {
-      items: [],
       loading: false,
 
+      // Sets up the table columns and their details
       headers: [
         { title: "Date", value: "date" },
         { title: "Order", value: "order" },

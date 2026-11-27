@@ -10,7 +10,7 @@
     </div>
 
     <!-- Inspection Table -->
-    <InspectionTable />
+    <InspectionTable :items="inspections" />
 
     <!-- Create Inspection Dialog -->
     <v-dialog v-model="showForm" max-width="600px" persistent>
@@ -24,7 +24,10 @@
         </v-card-title>
 
         <v-card-text>
-          <CreateInspection @closeForm="closeAddForm" />
+          <CreateInspection
+            @saveInspection="saveInspection"
+            @closeForm="closeAddForm"
+          />
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -46,6 +49,8 @@ export default {
   data() {
     return {
       showForm: false,
+      // list of saved inspections
+      inspections: [],
     };
   },
 
@@ -58,6 +63,11 @@ export default {
     // Close create inspection form
     closeAddForm() {
       this.showForm = false;
+    },
+
+    // Save inspection details
+    saveInspection(inspection) {
+      this.inspections.push({ ...inspection });
     },
   },
 };
