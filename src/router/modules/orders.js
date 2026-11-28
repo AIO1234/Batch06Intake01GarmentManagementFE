@@ -1,4 +1,6 @@
+// Route definitions for Function 2: Order Management (Orders & Styles + Order Status Report)
 export default [
+  // Direct top-level route for Orders & Styles
   {
     path: "/OrderManagement",
     component: () => import("@/layouts/default.vue"),
@@ -13,6 +15,7 @@ export default [
       },
     ],
   },
+  // Direct top-level route for Order Status Report
   {
     path: "/OrderStatus",
     component: () => import("@/layouts/default.vue"),
@@ -28,6 +31,7 @@ export default [
       },
     ],
   },
+  // Admin-prefixed routes used by sidebar navigation
   {
     path: "/admin",
     component: () => import("@/layouts/default.vue"),

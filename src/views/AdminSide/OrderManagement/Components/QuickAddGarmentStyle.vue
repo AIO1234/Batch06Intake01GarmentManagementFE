@@ -1,10 +1,12 @@
 <template>
+  <!-- Shared Quick-Add Garment Style Card (used in both Orders tab and Garment Styles tab) -->
   <v-card class="pa-4 order_form_card" elevation="2">
     <div class="text-subtitle-1 font-weight-bold mb-3">
       Garment Style (Styles tab — quick add)
     </div>
     <v-form ref="addStyleForm" v-model="isFormValid" @submit.prevent="addStyle">
       <v-row dense class="align-start">
+        <!-- Garment Style Name -->
         <v-col cols="12" md="4">
           <label class="form_label">Style Name *</label>
           <v-text-field
@@ -16,6 +18,7 @@
           />
         </v-col>
 
+        <!-- Size Dropdown -->
         <v-col cols="12" md="3">
           <label class="form_label">Size *</label>
           <v-select
@@ -28,6 +31,7 @@
           />
         </v-col>
 
+        <!-- Colour Input -->
         <v-col cols="12" md="3">
           <label class="form_label">Colour *</label>
           <v-text-field
@@ -39,6 +43,7 @@
           />
         </v-col>
 
+        <!-- Submit Button -->
         <v-col cols="12" md="2" class="pt-md-6">
           <v-btn
             type="submit"
@@ -81,6 +86,7 @@ export default {
   },
 
   methods: {
+    // Reject empty or whitespace-only values
     required(v) {
       return (
         (v !== null && v !== undefined && String(v).trim() !== "") ||
@@ -88,6 +94,7 @@ export default {
       );
     },
 
+    // Save new garment style and emit stylesChanged to refresh master lists
     async addStyle() {
       const { valid } = await this.$refs.addStyleForm.validate();
       if (!valid) return;

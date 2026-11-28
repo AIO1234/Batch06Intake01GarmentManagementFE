@@ -1,5 +1,6 @@
 <template>
   <div class="order_management pa-2">
+    <!-- Top Navigation Tabs: Orders | Garment Styles | Order Status Report -->
     <div class="d-flex flex-wrap justify-space-between align-center mb-3 ga-2">
       <v-tabs v-model="activeTab" color="primary" class="erp_tabs">
         <v-tab value="orders" style="text-transform: none">Orders</v-tab>
@@ -11,7 +12,7 @@
     </div>
 
     <v-window v-model="activeTab">
-      <!-- Screen A - Tab 1: Orders (Table + New Order + Quick Add Garment Style) -->
+      <!-- Screen A - Tab 1: Orders List, Inline New Order Form, and Quick-Add Style -->
       <v-window-item value="orders">
         <OrderTable
           :orders="orders"
@@ -22,7 +23,7 @@
           @refreshOrders="handleOrdersChanged"
         />
 
-        <!-- New Order Card -->
+        <!-- Inline New Order Card (shown by default below the Orders table) -->
         <v-expand-transition>
           <div ref="newOrderSection">
             <v-card v-if="showCreateForm" class="pa-4 mt-4" elevation="2">
@@ -47,14 +48,14 @@
           </div>
         </v-expand-transition>
 
-        <!-- Garment Style Quick Add (Screen A Bottom Card) -->
+        <!-- Quick-Add Garment Style Card (synced with Garment Styles tab & Style dropdown) -->
         <QuickAddGarmentStyle
           class="mt-4"
           @stylesChanged="handleStylesChanged"
         />
       </v-window-item>
 
-      <!-- Screen A - Tab 2: Garment Styles -->
+      <!-- Screen A - Tab 2: Garment Styles CRUD Management -->
       <v-window-item value="styles">
         <GarmentStyleTable
           :styles="styles"
@@ -63,7 +64,7 @@
         />
       </v-window-item>
 
-      <!-- Screen B: Report: Order Status -->
+      <!-- Screen B: Order Status Report with Filters & CSV Export -->
       <v-window-item value="report">
         <OrderStatusReportComponent ref="orderStatusReport" />
       </v-window-item>
@@ -91,10 +92,13 @@ export default {
 
   data() {
     return {
+      // Currently active tab ('orders', 'styles', or 'report')
       activeTab: "orders",
+      // Controls visibility of the inline New Order form
       showCreateForm: true,
       loadingOrders: false,
       loadingStyles: false,
+      // Master and transactional data lists
       orders: [],
       customers: [],
       styles: [],
@@ -102,12 +106,14 @@ export default {
   },
 
   computed: {
+    // Auto-incremented preview number for the next created order
     nextOrderNo() {
       return generateNextOrderNo(this.orders);
     },
   },
 
   watch: {
+    // Refresh the Order Status Report whenever the user switches to the report tab
     activeTab(tab) {
       if (tab === "report" && this.$refs.orderStatusReport) {
         this.$refs.orderStatusReport.refresh();
@@ -116,6 +122,7 @@ export default {
   },
 
   async created() {
+    // Load orders, customers, and garment styles concurrently on page mount
     await Promise.all([
       this.fetchOrders(),
       this.fetchCustomers(),
@@ -124,6 +131,7 @@ export default {
   },
 
   methods: {
+    // Load all orders from API/service
     async fetchOrders() {
       this.loadingOrders = true;
       try {
@@ -133,10 +141,12 @@ export default {
       }
     },
 
+    // Load customer master data for dropdowns
     async fetchCustomers() {
       this.customers = await orderService.getCustomers();
     },
 
+    // Load garment styles master data for dropdowns and styles table
     async fetchStyles() {
       this.loadingStyles = true;
       try {
@@ -146,6 +156,7 @@ export default {
       }
     },
 
+    // Reload orders and keep the Order Status Report in sync
     async handleOrdersChanged() {
       await this.fetchOrders();
       if (this.$refs.orderStatusReport) {
@@ -153,10 +164,12 @@ export default {
       }
     },
 
+    // Reload garment styles so new/edited styles immediately appear in Order dropdowns
     async handleStylesChanged() {
       await this.fetchStyles();
     },
 
+    // Expand and smoothly scroll to the New Order card when "+ New Order" is clicked
     openCreateForm() {
       this.showCreateForm = true;
       this.$nextTick(() => {
@@ -166,6 +179,7 @@ export default {
       });
     },
 
+    // Handle New Order form completion: refresh list on save or collapse on cancel
     async closeCreateForm(shouldRefresh = false) {
       if (shouldRefresh) {
         await this.handleOrdersChanged();

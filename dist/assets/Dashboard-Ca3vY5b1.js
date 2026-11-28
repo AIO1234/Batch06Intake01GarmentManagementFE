@@ -1,0 +1,1 @@
+import{m as o,H as r}from"./HorizantalBar-Cdu4WYis.js";import{_ as t,d as a,o as e}from"./index-CZebd3V6.js";import"./VNavigationDrawer-BZxfzy-7.js";import"./VRow-Dubd24nf.js";import"./VMenu-BElp99lJ.js";const s={components:{HorizantalBar:r,mobilebar:o}};function n(c,p,m,i,_,d){return e(),a("div")}const x=t(s,[["render",n]]);export{x as default};

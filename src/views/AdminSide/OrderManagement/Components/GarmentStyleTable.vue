@@ -1,12 +1,12 @@
 <template>
   <div>
-    <!-- Quick Add Garment Style -->
+    <!-- Quick Add Garment Style Form -->
     <QuickAddGarmentStyle
       class="mb-4"
       @stylesChanged="$emit('stylesChanged')"
     />
 
-    <!-- Garment Styles Table -->
+    <!-- Garment Styles Master Table -->
     <v-card class="pa-4" elevation="2">
       <v-row class="mb-3" dense>
         <v-col cols="12" md="6">
@@ -30,10 +30,12 @@
         :items-per-page="10"
         hover
       >
+        <!-- Combined display name column matching Order dropdown -->
         <template #[`item.display_label`]="{ item }">
           {{ formatStyle(item) }}
         </template>
 
+        <!-- Edit & Delete action buttons -->
         <template #[`item.action`]="{ item }">
           <div class="d-flex ga-2">
             <v-btn
@@ -59,6 +61,7 @@
       </v-data-table>
     </v-card>
 
+    <!-- Edit Garment Style Modal Dialog -->
     <v-dialog v-model="showEditModal" max-width="500px" persistent>
       <v-card class="pa-2">
         <v-card-title class="d-flex justify-space-between align-center">
@@ -92,6 +95,7 @@ export default {
   },
 
   props: {
+    // Master garment styles list passed from parent
     styles: {
       type: Array,
       default: () => [],
@@ -121,6 +125,7 @@ export default {
   },
 
   computed: {
+    // Filter styles live by style name, size, or colour
     filteredStyles() {
       const q = (this.searchQuery || "").trim().toLowerCase();
       if (!q) return this.styles;
@@ -131,15 +136,18 @@ export default {
   },
 
   methods: {
+    // Build combined style label
     formatStyle(item) {
       return formatStyleLabel(item);
     },
 
+    // Open Edit Garment Style dialog
     openEditModal(item) {
       this.selectedStyle = { ...item };
       this.showEditModal = true;
     },
 
+    // Close dialog and notify parent if updated
     closeEditModal(shouldRefresh = false) {
       this.showEditModal = false;
       if (shouldRefresh) {
@@ -147,6 +155,7 @@ export default {
       }
     },
 
+    // Confirm and delete a garment style
     async deleteStyle(item) {
       const result = await Swal.fire({
         icon: "warning",

@@ -1,5 +1,6 @@
 <template>
   <div class="order_management pa-2">
+    <!-- Navigation button back to Orders & Styles -->
     <div class="d-flex justify-end mb-3">
       <v-btn
         variant="outlined"
@@ -12,6 +13,7 @@
       </v-btn>
     </div>
 
+    <!-- Reusable Screen B: Order Status Report Component -->
     <OrderStatusReportComponent />
   </div>
 </template>

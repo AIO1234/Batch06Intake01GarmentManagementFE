@@ -1,7 +1,9 @@
 <template>
   <div class="order_form_card pa-2">
+    <!-- New Order Creation Form with Client-Side Validation -->
     <v-form ref="addOrderForm" v-model="isFormValid" @submit.prevent="storeOrder">
       <v-row dense>
+        <!-- Auto-generated read-only Order Number preview -->
         <v-col cols="12" md="4">
           <label class="form_label">Order No.</label>
           <v-text-field
@@ -13,6 +15,7 @@
           />
         </v-col>
 
+        <!-- Customer Dropdown (loaded from master data) -->
         <v-col cols="12" md="4">
           <label class="form_label">Customer *</label>
           <v-select
@@ -27,6 +30,7 @@
           />
         </v-col>
 
+        <!-- Garment Style Dropdown (loaded from master data) -->
         <v-col cols="12" md="4">
           <label class="form_label">Style *</label>
           <v-select
@@ -41,6 +45,7 @@
           />
         </v-col>
 
+        <!-- Quantity (> 0 integer required) -->
         <v-col cols="12" md="4">
           <label class="form_label">Quantity *</label>
           <v-text-field
@@ -54,6 +59,7 @@
           />
         </v-col>
 
+        <!-- Unit Price in LKR (>= 0 required) -->
         <v-col cols="12" md="4">
           <label class="form_label">Unit Price (LKR) *</label>
           <v-text-field
@@ -67,6 +73,7 @@
           />
         </v-col>
 
+        <!-- Delivery Date (must be on or after Order Date) -->
         <v-col cols="12" md="4">
           <label class="form_label">Delivery Date *</label>
           <v-text-field
@@ -79,6 +86,7 @@
           />
         </v-col>
 
+        <!-- Initial Order Status (defaults to Pending) -->
         <v-col cols="12" md="4">
           <label class="form_label">Status</label>
           <v-select
@@ -90,6 +98,7 @@
           />
         </v-col>
 
+        <!-- Order Date (defaults to today; used to validate Delivery Date) -->
         <v-col cols="12" md="4">
           <label class="form_label">Order Date *</label>
           <v-text-field
@@ -102,6 +111,7 @@
         </v-col>
       </v-row>
 
+      <!-- Form Action Buttons -->
       <div class="d-flex justify-end ga-3 mt-4">
         <v-btn
           variant="outlined"
@@ -133,14 +143,17 @@ import orderService, {
 export default {
   name: "AddOrder",
   props: {
+    // Customer list from master data
     customers: {
       type: Array,
       default: () => [],
     },
+    // Garment style list from master data
     styles: {
       type: Array,
       default: () => [],
     },
+    // Next auto-generated order number preview
     nextOrderNo: {
       type: String,
       default: "ORD-2026-0001",
@@ -168,6 +181,7 @@ export default {
   },
 
   computed: {
+    // Format each style into "StyleName Size Colour" for the dropdown
     formattedStyles() {
       return this.styles.map((style) => ({
         id: style.id,
@@ -177,6 +191,7 @@ export default {
   },
 
   watch: {
+    // Re-validate delivery date rule whenever order_date changes
     "form.order_date"() {
       if (this.$refs.addOrderForm) {
         this.$refs.addOrderForm.validate();
@@ -185,10 +200,12 @@ export default {
   },
 
   methods: {
+    // Generic required field validation rule
     required(v) {
       return (v !== null && v !== undefined && v !== "") || "Field is required";
     },
 
+    // Required check allowing 0 as a valid unit price
     requiredPrice(v) {
       return (
         (v !== null && v !== undefined && v !== "") ||
@@ -196,6 +213,7 @@ export default {
       );
     },
 
+    // Quantity validation: must be a positive whole number (> 0)
     positiveIntegerRule(v) {
       const num = Number(v);
       return (
@@ -204,11 +222,13 @@ export default {
       );
     },
 
+    // Unit price validation: must be >= 0
     nonNegativePriceRule(v) {
       const num = Number(v);
       return (!Number.isNaN(num) && num >= 0) || "Unit price must be 0 or more";
     },
 
+    // Delivery date validation: cannot be earlier than order date
     deliveryDateRule(v) {
       if (!v || !this.form.order_date) return true;
       return (
@@ -217,6 +237,7 @@ export default {
       );
     },
 
+    // Reset all inputs back to default values and clear validation errors
     resetFormFields() {
       const today = new Date().toISOString().slice(0, 10);
       this.form = {
@@ -233,11 +254,13 @@ export default {
       }
     },
 
+    // Reset and notify parent to hide the inline New Order card
     handleCancel() {
       this.resetFormFields();
       this.$emit("closeForm", false);
     },
 
+    // Validate and persist the new order via orderService
     async storeOrder() {
       const { valid } = await this.$refs.addOrderForm.validate();
       if (!valid) return;

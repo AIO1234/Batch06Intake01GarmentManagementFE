@@ -1,6 +1,6 @@
 <template>
   <div class="order_management">
-    <!-- Filter Bar -->
+    <!-- Screen B Filter Bar: Customer, Status, Apply Filter, Reset, Export CSV -->
     <v-card class="pa-4 mb-4 order_form_card" elevation="2">
       <v-row dense class="align-end">
         <v-col cols="12" sm="4" md="3">
@@ -51,7 +51,7 @@
       </v-row>
     </v-card>
 
-    <!-- Report Table -->
+    <!-- Report Table & Total Ordered Summary -->
     <v-card class="pa-4" elevation="2">
       <v-data-table
         class="erp_table"
@@ -68,6 +68,7 @@
         </template>
       </v-data-table>
 
+      <!-- Showing range, Total ordered quantity, and pagination controls -->
       <div class="report_summary_bar mt-4">
         <div>
           <span v-if="reportRows.length > 0">
@@ -110,10 +111,12 @@ export default {
       reportRows: [],
       currentPage: 1,
       perPage: 10,
+      // Uncommitted filter selections in UI dropdowns
       draftFilters: {
         customer_id: "all",
         status: "All",
       },
+      // Active filters submitted via "Apply Filter"
       appliedFilters: {
         customer_id: "all",
         status: "All",
@@ -129,14 +132,17 @@ export default {
   },
 
   computed: {
+    // Customer filter dropdown items including "All customers"
     customerOptions() {
       return [{ id: "all", name: "All customers" }, ...this.customers];
     },
 
+    // Status filter dropdown items including "All"
     statusOptions() {
       return ["All", ...ORDER_STATUS_FLOW];
     },
 
+    // Sum of ordered quantities across all filtered report rows
     totalOrderedQty() {
       return this.reportRows.reduce(
         (sum, row) => sum + Number(row.quantity || 0),
@@ -148,6 +154,7 @@ export default {
       return Math.max(1, Math.ceil(this.reportRows.length / this.perPage));
     },
 
+    // Slice rows for the active page
     paginatedRows() {
       const start = (this.currentPage - 1) * this.perPage;
       return this.reportRows.slice(start, start + this.perPage);
@@ -171,11 +178,13 @@ export default {
   },
 
   methods: {
+    // Reload customer dropdown options and report rows
     async refresh() {
       this.customers = await orderService.getCustomers();
       await this.loadReport();
     },
 
+    // Style status badge pill
     badgeStyle(status) {
       const color = getStatusColor(status);
       return {
@@ -184,6 +193,7 @@ export default {
       };
     },
 
+    // Fetch filtered report data and reset pagination to page 1
     async loadReport() {
       this.loading = true;
       try {
@@ -196,17 +206,20 @@ export default {
       }
     },
 
+    // Apply current dropdown filters
     async applyFilters() {
       this.appliedFilters = { ...this.draftFilters };
       await this.loadReport();
     },
 
+    // Clear all filters back to defaults
     async resetFilters() {
       this.draftFilters = { customer_id: "all", status: "All" };
       this.appliedFilters = { ...this.draftFilters };
       await this.loadReport();
     },
 
+    // Quote CSV values containing commas, quotes, or newlines
     escapeCsvCell(value) {
       const str = String(value ?? "");
       if (str.includes(",") || str.includes('"') || str.includes("\n")) {
@@ -215,6 +228,7 @@ export default {
       return str;
     },
 
+    // Generate and download filtered Order Status Report as CSV
     exportCsv() {
       const columns = ["Order No.", "Date", "Customer", "Ordered Qty", "Status"];
       const lines = [columns.join(",")];
