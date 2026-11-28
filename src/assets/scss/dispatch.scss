@@ -1,16 +1,23 @@
-/* ==========================================================================
-   GARMENT ERP - DISPATCH MANAGEMENT SCSS
+/* =========================================================================================
+   GARMENT MANUFACTURING ERP - FUNCTION 10: DISPATCH MANAGEMENT SCSS
+   File: src/assets/scss/dispatch.scss
+   Reference: UI Design Document (Page 2 Shared Design System, Page 14 Wireframe)
+   Student: Student 10 Deliverable
    Design System Standards (SRS §6 & §8):
-   - Primary: #0e7490
-   - Sidebar / table head: #12303b
-   - Accent / export: #f59e0b
-   - Success: #16a34a
-   - Error: #dc2626
-   - Info: #2563eb
-   - Page bg: #f3f6f8
-   - Card: #ffffff
-   ========================================================================== */
+     - Primary Brand / Action: #0e7490 (Teal)
+     - Sidebar / Table Header: #12303b (Dark Slate)
+     - Accent / Export Action: #f59e0b (Amber / Gold)
+     - Success Indicator:      #16a34a (Green)
+     - Error / Validation:     #dc2626 (Red)
+     - Info Highlight:         #2563eb (Blue)
+     - Page Background:        #f3f6f8 (Cool Light Grey)
+     - Card Background:        #ffffff (White)
+     - Read-only Field Fill:   #f1f5f9 (Soft Grey)
+   ========================================================================================= */
 
+// -----------------------------------------------------------------------------------------
+// 1. SASS VARIABLE DECLARATIONS
+// -----------------------------------------------------------------------------------------
 $color-primary: #0e7490;
 $color-primary-dark: #0c6077;
 $color-primary-light: #e0f2fe;
@@ -28,13 +35,18 @@ $color-text: #1e293b;
 $color-text-muted: #64748b;
 $color-readonly-bg: #f1f5f9;
 
+// -----------------------------------------------------------------------------------------
+// 2. ROOT DISPATCH CONTAINER
+// -----------------------------------------------------------------------------------------
 .dispatch-container {
   width: 100%;
   max-width: 100%;
   color: $color-text;
   font-family: Inter, Helvetica, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* View switcher tabs (Screen A · Dispatches vs Screen B · Report: Dispatch Summary) */
+  /* ---------------------------------------------------------------------------------------
+     2.1 View Switcher Tabs (Full Wireframe View vs Screen A vs Screen B)
+     --------------------------------------------------------------------------------------- */
   .view-tabs {
     display: flex;
     gap: 8px;
@@ -71,7 +83,9 @@ $color-readonly-bg: #f1f5f9;
     }
   }
 
-  /* Card styling */
+  /* ---------------------------------------------------------------------------------------
+     2.2 White Card Container (Standard ERP Card Pattern per SRS §8)
+     --------------------------------------------------------------------------------------- */
   .erp-card {
     background: $color-card;
     border: 1px solid $color-border;
@@ -102,7 +116,9 @@ $color-readonly-bg: #f1f5f9;
     }
   }
 
-  /* Search & Top Action Bar */
+  /* ---------------------------------------------------------------------------------------
+     2.3 Search and Action Bar (Search box with magnifying glass + "+ New Dispatch" button)
+     --------------------------------------------------------------------------------------- */
   .search-action-bar {
     display: flex;
     justify-content: space-between;
@@ -148,7 +164,10 @@ $color-readonly-bg: #f1f5f9;
     }
   }
 
-  /* Buttons */
+  /* ---------------------------------------------------------------------------------------
+     2.4 Button Component Classes
+     --------------------------------------------------------------------------------------- */
+  // Primary Action Button (Teal #0e7490)
   .btn-primary-erp {
     background-color: $color-primary;
     color: #ffffff;
@@ -173,6 +192,7 @@ $color-readonly-bg: #f1f5f9;
     }
   }
 
+  // Outline Secondary Action Button
   .btn-outline-erp {
     background-color: #ffffff;
     color: #334155;
@@ -190,6 +210,7 @@ $color-readonly-bg: #f1f5f9;
     }
   }
 
+  // Amber Accent Export Button (Gold #f59e0b)
   .btn-export-erp {
     background-color: $color-accent;
     color: #ffffff;
@@ -209,7 +230,9 @@ $color-readonly-bg: #f1f5f9;
     }
   }
 
-  /* Banners */
+  /* ---------------------------------------------------------------------------------------
+     2.5 Validation and Feedback Banners (SRS §8 Interaction Rules)
+     --------------------------------------------------------------------------------------- */
   .erp-banner {
     display: flex;
     align-items: center;
@@ -220,12 +243,14 @@ $color-readonly-bg: #f1f5f9;
     font-weight: 500;
     margin-bottom: 16px;
 
+    // Red validation error banner
     &.banner-error {
       background-color: #fef2f2;
       border: 1px solid #fecaca;
       color: $color-error;
     }
 
+    // Green success confirmation banner
     &.banner-success {
       background-color: #f0fdf4;
       border: 1px solid #bbf7d0;
@@ -237,7 +262,9 @@ $color-readonly-bg: #f1f5f9;
     }
   }
 
-  /* Form Grid and Groups */
+  /* ---------------------------------------------------------------------------------------
+     2.6 Form Grid and Control Elements
+     --------------------------------------------------------------------------------------- */
   .form-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -286,6 +313,7 @@ $color-readonly-bg: #f1f5f9;
         box-shadow: 0 0 0 2px rgba(14, 116, 144, 0.15);
       }
 
+      // Read-only grey inputs for calculated values
       &.readonly-field {
         background-color: $color-readonly-bg;
         color: #475569;
@@ -294,6 +322,7 @@ $color-readonly-bg: #f1f5f9;
         border-color: $color-border;
       }
 
+      // Invalid input with red border and soft pink fill
       &.is-invalid {
         border-color: $color-error !important;
         background-color: #fff8f8;
@@ -321,7 +350,9 @@ $color-readonly-bg: #f1f5f9;
     border-top: 1px solid $color-border;
   }
 
-  /* Table Styles */
+  /* ---------------------------------------------------------------------------------------
+     2.7 Data Table Styling (Dark Slate Header #12303b & Clear Row Spacing)
+     --------------------------------------------------------------------------------------- */
   .table-responsive {
     width: 100%;
     overflow-x: auto;
@@ -383,7 +414,9 @@ $color-readonly-bg: #f1f5f9;
     }
   }
 
-  /* Order Balance Sub-Section */
+  /* ---------------------------------------------------------------------------------------
+     2.8 Order Balance Sub-Section
+     --------------------------------------------------------------------------------------- */
   .order-balance-section {
     margin-top: 22px;
     padding-top: 16px;
@@ -397,7 +430,9 @@ $color-readonly-bg: #f1f5f9;
     }
   }
 
-  /* Report Filter Bar */
+  /* ---------------------------------------------------------------------------------------
+     2.9 Report Filter Bar (Screen B Filters)
+     --------------------------------------------------------------------------------------- */
   .report-filter-bar {
     display: flex;
     flex-wrap: wrap;
@@ -452,7 +487,9 @@ $color-readonly-bg: #f1f5f9;
     }
   }
 
-  /* Table Footer & Pagination */
+  /* ---------------------------------------------------------------------------------------
+     2.10 Table Summary & Pagination Controls
+     --------------------------------------------------------------------------------------- */
   .table-footer {
     display: flex;
     justify-content: space-between;
@@ -508,7 +545,9 @@ $color-readonly-bg: #f1f5f9;
     }
   }
 
-  /* Status Badges */
+  /* ---------------------------------------------------------------------------------------
+     2.11 Shared Status Badges (Page 2 Standards)
+     --------------------------------------------------------------------------------------- */
   .status-badge {
     display: inline-block;
     padding: 3px 8px;
@@ -517,49 +556,14 @@ $color-readonly-bg: #f1f5f9;
     font-weight: 600;
     text-transform: capitalize;
 
-    &.status-pending {
-      background-color: #f1f5f9;
-      color: #475569;
-    }
-
-    &.status-in-production {
-      background-color: #e0f2fe;
-      color: #0284c7;
-    }
-
-    &.status-qa {
-      background-color: #fef3c7;
-      color: #d97706;
-    }
-
-    &.status-dispatched {
-      background-color: #dcfce7;
-      color: #16a34a;
-    }
-
-    &.status-open {
-      background-color: #dbeafe;
-      color: #2563eb;
-    }
-
-    &.status-partial {
-      background-color: #fef3c7;
-      color: #b45309;
-    }
-
-    &.status-closed {
-      background-color: #f1f5f9;
-      color: #475569;
-    }
-
-    &.status-paid {
-      background-color: #dcfce7;
-      color: #16a34a;
-    }
-
-    &.status-unpaid {
-      background-color: #fee2e2;
-      color: #dc2626;
-    }
+    &.status-pending { background-color: #f1f5f9; color: #475569; }
+    &.status-in-production { background-color: #e0f2fe; color: #0284c7; }
+    &.status-qa { background-color: #fef3c7; color: #d97706; }
+    &.status-dispatched { background-color: #dcfce7; color: #16a34a; }
+    &.status-open { background-color: #dbeafe; color: #2563eb; }
+    &.status-partial { background-color: #fef3c7; color: #b45309; }
+    &.status-closed { background-color: #f1f5f9; color: #475569; }
+    &.status-paid { background-color: #dcfce7; color: #16a34a; }
+    &.status-unpaid { background-color: #fee2e2; color: #dc2626; }
   }
 }

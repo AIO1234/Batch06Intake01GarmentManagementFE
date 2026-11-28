@@ -1,34 +1,60 @@
+<!-- =========================================================================================
+  Garment Manufacturing ERP - Central Dashboard View
+  File: src/views/AdminSide/Dashboard.vue
+  Reference: UI Design Document Page 3 (Screen · Dashboard / Landing Page)
+  Purpose:
+    - Central internal landing dashboard showing operational overview across manufacturing:
+      1) KPI metric summary cards (Open orders, POs awaiting goods, Low stock, Unpaid invoices)
+      2) Order pipeline progress tracking (Ordered, Produced, QA approved, Dispatched, Invoiced)
+      3) Quick Action shortcuts into core student functions (including + Dispatch)
+      4) Recent Orders table with real-time status badges
+      5) Complete manufacturing business process flow visualization
+========================================================================================== -->
+
 <template>
   <div class="dashboard-container">
-    <!-- Top KPI Metric Cards -->
+    <!-- ===================================================================================
+         SECTION 1: KPI METRIC CARDS
+         Summarizes key metrics across orders, purchasing, inventory, and finance
+    ==================================================================================== -->
     <div class="kpi-grid">
+      <!-- KPI 1: Open Orders -->
       <div class="kpi-card">
         <div class="kpi-value text-primary">24</div>
         <div class="kpi-label">Open orders</div>
       </div>
+
+      <!-- KPI 2: POs Awaiting Goods -->
       <div class="kpi-card">
         <div class="kpi-value text-accent">9</div>
         <div class="kpi-label">POs awaiting goods</div>
       </div>
+
+      <!-- KPI 3: Materials Low in Stock -->
       <div class="kpi-card">
         <div class="kpi-value text-error">3</div>
         <div class="kpi-label">Materials low in stock</div>
       </div>
+
+      <!-- KPI 4: Unpaid Invoices -->
       <div class="kpi-card">
         <div class="kpi-value text-warning">5</div>
         <div class="kpi-label">Unpaid invoices</div>
       </div>
     </div>
 
-    <!-- Main Grid: Pipeline and Quick Actions -->
+    <!-- ===================================================================================
+         SECTION 2: PIPELINE PROGRESS & QUICK ACTIONS
+    ==================================================================================== -->
     <div class="dashboard-grid">
-      <!-- Order Pipeline Qty -->
+      <!-- 2.1 Order Pipeline Progress (Quantities) -->
       <div class="erp-card">
         <div class="card-header-bar">
           <h3 class="card-title">Order pipeline (qty)</h3>
         </div>
         <div class="card-body">
           <div class="pipeline-list">
+            <!-- Stage 1: Ordered -->
             <div class="pipeline-item">
               <div class="item-meta">
                 <span>Ordered</span>
@@ -39,6 +65,7 @@
               </div>
             </div>
 
+            <!-- Stage 2: Produced -->
             <div class="pipeline-item">
               <div class="item-meta">
                 <span>Produced</span>
@@ -49,6 +76,7 @@
               </div>
             </div>
 
+            <!-- Stage 3: QA Approved -->
             <div class="pipeline-item">
               <div class="item-meta">
                 <span>QA approved</span>
@@ -59,6 +87,7 @@
               </div>
             </div>
 
+            <!-- Stage 4: Dispatched (Student 10 Focus) -->
             <div class="pipeline-item">
               <div class="item-meta">
                 <span>Dispatched</span>
@@ -69,6 +98,7 @@
               </div>
             </div>
 
+            <!-- Stage 5: Invoiced -->
             <div class="pipeline-item">
               <div class="item-meta">
                 <span>Invoiced</span>
@@ -82,7 +112,7 @@
         </div>
       </div>
 
-      <!-- Quick Actions -->
+      <!-- 2.2 Quick Action Buttons -->
       <div class="erp-card">
         <div class="card-header-bar">
           <h3 class="card-title">Quick actions</h3>
@@ -101,6 +131,7 @@
             <button class="action-tile" @click="$router.push('/production')">
               <span class="plus">+</span> Record Production
             </button>
+            <!-- Highlighted Dispatch action leading directly to Function 10 -->
             <button class="action-tile highlight-action" @click="$router.push('/dispatch')">
               <span class="plus">+</span> Dispatch
             </button>
@@ -109,7 +140,10 @@
       </div>
     </div>
 
-    <!-- Recent Orders Table -->
+    <!-- ===================================================================================
+         SECTION 3: RECENT ORDERS TABLE
+         Displays current status of sample active orders
+    ==================================================================================== -->
     <div class="erp-card">
       <div class="card-header-bar">
         <h3 class="card-title">Recent orders</h3>
@@ -150,7 +184,10 @@
       </div>
     </div>
 
-    <!-- Business Flow -->
+    <!-- ===================================================================================
+         SECTION 4: BUSINESS PROCESS FLOW
+         SRS §7: Customer ➔ Order ➔ BOM/PO ➔ GRN ➔ Stock ➔ Production ➔ QA ➔ Dispatch ➔ Invoice
+    ==================================================================================== -->
     <div class="erp-card">
       <div class="card-header-bar">
         <h3 class="card-title">Business flow</h3>

@@ -1,17 +1,38 @@
+<!-- =========================================================================================
+  Garment Manufacturing ERP - Staff Login View
+  File: src/views/Login.vue
+  Reference: UI Design Document Page 3 (Screen · Login)
+  Purpose:
+    - Internal staff authentication screen.
+    - Per SRS §1.4: "Internal staff only (customers cannot log in)".
+    - Roles: Administrator, Garment Clerk, Purchasing Officer, Storekeeper, Production Officer, QA Officer.
+    - Redirects authenticated staff to the ERP Dashboard or Dispatch Management.
+========================================================================================== -->
+
 <template>
   <div class="login-wrapper">
     <div class="login-card">
+      <!-- ===================================================================================
+           BRAND & HEADER SECTION
+      ==================================================================================== -->
       <div class="login-header">
         <h2 class="erp-brand">GARMENT ERP</h2>
         <div class="erp-subtitle">Internal staff login</div>
       </div>
 
+      <!-- ===================================================================================
+           ERROR BANNER (SRS §8: Wrong credentials -> red banner, no hint which field failed)
+      ==================================================================================== -->
       <div v-if="loginError" class="erp-banner banner-error">
         <span class="banner-icon">⚠️</span>
         <span>{{ loginError }}</span>
       </div>
 
+      <!-- ===================================================================================
+           AUTHENTICATION FORM
+      ==================================================================================== -->
       <form @submit.prevent="handleLogin" class="login-form">
+        <!-- Email Input Field -->
         <div class="form-group">
           <label class="form-label">Email<span class="required-star">*</span></label>
           <input
@@ -23,6 +44,7 @@
           />
         </div>
 
+        <!-- Password Input Field with Toggle Visibility -->
         <div class="form-group">
           <label class="form-label">Password<span class="required-star">*</span></label>
           <div class="password-input-wrap">
@@ -44,11 +66,15 @@
           </div>
         </div>
 
+        <!-- Sign In Button (Teal #0e7490) -->
         <button type="submit" class="btn-primary-erp btn-login">
           Sign In
         </button>
       </form>
 
+      <!-- ===================================================================================
+           FOOTNOTE / ROLE RESTRICTION NOTICE
+      ==================================================================================== -->
       <div class="login-footer">
         <p class="role-notice">
           Customers cannot log in · Roles: Administrator, Garment Clerk, Purchasing Officer, Storekeeper, Production Officer, QA Officer
@@ -61,20 +87,27 @@
 <script>
 export default {
   name: "LoginView",
+
   data() {
     return {
+      // Pre-filled sample staff email from wireframe Page 3
       email: "clerk@factory.lk",
       password: "password123",
       showPassword: false,
       loginError: "",
     };
   },
+
   methods: {
+    /**
+     * Simulates authentication verification and redirects to ERP
+     */
     handleLogin() {
       if (!this.email || !this.password) {
         this.loginError = "Invalid email or password.";
         return;
       }
+      // On successful credentials, navigate to Dispatch Management
       this.$router.push("/dispatch");
     },
   },

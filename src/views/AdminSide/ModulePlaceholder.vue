@@ -1,10 +1,37 @@
+<!-- =========================================================================================
+  Garment Manufacturing ERP - Shared Module Wireframe Component
+  File: src/views/AdminSide/ModulePlaceholder.vue
+  Reference: UI Design Document (Functions 1-9 & 11 Wireframes)
+  Purpose:
+    - Provides working mockup screens for the remaining 10 functions in the ERP suite.
+    - Matches the standard design template (SRS §8):
+        ① Tabs / Search bar + "+ Add New" button
+        ② List table (sortable, paged) with Edit / View actions
+    - Renders authentic sample data matching the exact scenarios from the UI wireframe document:
+        - Fn 1: Customers (CUS-0001 ABC Apparels, CUS-0002 Fashion Hub...)
+        - Fn 2: Orders & Styles (ORD-2026-0001 Polo Shirt M Blue...)
+        - Fn 3: Suppliers (SUP-0001 Lanka Fabrics...)
+        - Fn 4: Purchase Orders (PO-2026-0001 Lanka Fabrics Cotton Fabric...)
+        - Fn 5: Materials & BOM (MAT-001 Cotton Fabric, MAT-002 Buttons...)
+        - Fn 6: Goods Receipt (GRN-2026-0001...)
+        - Fn 7: Raw Material Stock (Cotton Fabric, Buttons, Thread...)
+        - Fn 8: Production (Cut Qty 105, Completed 60...)
+        - Fn 9: Quality Assurance (Inspected 100, Approved 95, Defective 5...)
+        - Fn 11: Invoicing (INV-2026-0001 ABC Apparels LKR 137,750...)
+========================================================================================== -->
+
 <template>
   <div class="dispatch-container">
     <div class="erp-card">
+      <!-- Card Header -->
       <div class="card-header-bar">
         <h3 class="card-title">{{ moduleTitle }} & Form</h3>
       </div>
+
       <div class="card-body">
+        <!-- ===================================================================================
+             SEARCH & ACTION BAR
+        ==================================================================================== -->
         <div class="search-action-bar">
           <div class="search-input-wrapper">
             <span class="search-icon">🔍</span>
@@ -21,6 +48,9 @@
           </div>
         </div>
 
+        <!-- ===================================================================================
+             DATA TABLE (COLUMNS & ROWS DYNAMICALLY MAPPED PER ERP FUNCTION)
+        ==================================================================================== -->
         <div class="table-responsive">
           <table class="erp-table">
             <thead>
@@ -48,6 +78,9 @@
           </table>
         </div>
 
+        <!-- ===================================================================================
+             TABLE FOOTER
+        ==================================================================================== -->
         <div class="table-footer">
           <div>Showing 1–{{ sampleRows.length }} of {{ sampleRows.length }}</div>
           <div>Student Wireframe Deliverable · SRS §8</div>
@@ -60,15 +93,27 @@
 <script>
 export default {
   name: "ModulePlaceholder",
+
   computed: {
+    /**
+     * Resolves active module title from route metadata
+     */
     moduleTitle() {
       return this.$route.meta?.pageTitle || "Garment ERP Module";
     },
+
+    /**
+     * Singularized module name for button label
+     */
     singularName() {
       const title = this.moduleTitle;
       if (title.endsWith("s")) return title.slice(0, -1);
       return title;
     },
+
+    /**
+     * Column headers configured for each specific function from the UI Design PDF
+     */
     columns() {
       switch (this.$route.path) {
         case "/customers":
@@ -95,6 +140,10 @@ export default {
           return ["Code", "Description", "Date", "Status"];
       }
     },
+
+    /**
+     * Authentic sample dataset matching the exact values and IDs in the UI wireframe document
+     */
     sampleRows() {
       switch (this.$route.path) {
         case "/customers":

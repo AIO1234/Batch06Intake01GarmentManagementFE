@@ -1,17 +1,22 @@
-/* ==========================================================================
-   GARMENT ERP - MAIN ADMIN LAYOUT SCSS
+/* =========================================================================================
+   GARMENT MANUFACTURING ERP - MAIN ADMIN LAYOUT SCSS
+   File: src/assets/scss/admin.scss
+   Reference: UI Design Document (Page 2 Shared Standards, Page 3 & 4 Layouts)
    Design System Standards (SRS §6 & §8):
-   - Background: #f3f6f8
-   - Sidebar: #12303b
-   - Topbar: #ffffff
-   - Laptop first (1366x768 and up), basic responsive collapse
-   ========================================================================== */
+     - Background: #f3f6f8 (Cool Light Grey)
+     - Sidebar Header: #12303b (Dark Slate)
+     - Topbar: #ffffff (White with subtle bottom border)
+     - Laptop first (1366x768 and up), basic responsive collapse below 900px
+   ========================================================================================= */
 
 $color-page-bg: #f3f6f8;
 $color-table-head: #12303b;
 $color-primary: #0e7490;
 $color-border: #e2e8f0;
 
+/* -----------------------------------------------------------------------------------------
+   1. ROOT APPLICATION LAYOUT WRAPPER
+   ----------------------------------------------------------------------------------------- */
 .erp-layout {
   display: flex;
   min-height: 100vh;
@@ -20,18 +25,25 @@ $color-border: #e2e8f0;
   font-family: Inter, Helvetica, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color: #1e293b;
 
+  /* ---------------------------------------------------------------------------------------
+     1.1 Sidebar Column (Fixed 230px width on desktop)
+     --------------------------------------------------------------------------------------- */
   .erp-sidebar-col {
     width: 230px;
     min-width: 230px;
     flex-shrink: 0;
     z-index: 100;
 
+    // Responsive collapse for narrow viewports below 900px
     @media (max-width: 900px) {
       width: 64px;
       min-width: 64px;
     }
   }
 
+  /* ---------------------------------------------------------------------------------------
+     1.2 Main Viewport Column (Flex-grow content area)
+     --------------------------------------------------------------------------------------- */
   .erp-main-col {
     flex: 1;
     display: flex;
@@ -40,6 +52,9 @@ $color-border: #e2e8f0;
     overflow-x: hidden;
   }
 
+  /* ---------------------------------------------------------------------------------------
+     1.3 Top Navigation Bar (Page title, current user status & logout action)
+     --------------------------------------------------------------------------------------- */
   .erp-topbar {
     height: 56px;
     background-color: #ffffff;
@@ -53,6 +68,7 @@ $color-border: #e2e8f0;
     z-index: 90;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 
+    // Left Section: Active Screen Title
     .topbar-left {
       display: flex;
       align-items: center;
@@ -80,6 +96,7 @@ $color-border: #e2e8f0;
       }
     }
 
+    // Right Section: User Identity ("Nimal P.") & Administrator Role Badge
     .topbar-right {
       display: flex;
       align-items: center;
@@ -123,6 +140,9 @@ $color-border: #e2e8f0;
     }
   }
 
+  /* ---------------------------------------------------------------------------------------
+     1.4 Main Content Area (Max width 1440px with balanced padding)
+     --------------------------------------------------------------------------------------- */
   .erp-content {
     flex: 1;
     padding: 20px 24px 40px 24px;
